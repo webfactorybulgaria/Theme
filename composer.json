@@ -1,5 +1,5 @@
 {
-    "name": "webfactorybulgaria/theme-basic",
+    "name": "webfactorybulgaria/theme",
     "description": "",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TypiCMS\\Modules\\ThemeBasic\\": "src/"
+            "TypiCMS\\Modules\\Theme\\": "src/"
         }
     },
     "minimum-stability": "dev",

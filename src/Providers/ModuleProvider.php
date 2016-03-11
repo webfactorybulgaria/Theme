@@ -1,20 +1,21 @@
 <?php
 
-namespace TypiCMS\Modules\ThemeBasic\Providers;
+namespace TypiCMS\Modules\Theme\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use File;
 
-class ModuleProvider extends ServiceProvider
+abstract class ModuleProvider extends ServiceProvider
 {
-    protected $themeName = 'basic';
+    protected $themeName = '';
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/themes/' . $this->$themeName),
-        ], 'views');
-
+            __DIR__.'/../resources/' => base_path('resources/themes/' . $this->themeName),
+        ], 'themes');
+        $this->addViews();
     }
 
     public function register()
@@ -25,14 +26,13 @@ class ModuleProvider extends ServiceProvider
     {
         $list = File::directories(__DIR__.'/../resources/views');
         foreach ($list as $namespace) {
-            $this->addView($namespace);
+            $this->addView(basename($namespace));
         }
     }
     protected function addView($namespace)
     {
-        if (is_dir($appPath = $this->app->basePath().'/resources/views/themes/'.$this->$themeName.'/'.$namespace)) {
-            $this->app['view']->prependNamespace('core', $this->app->basePath().'/resources/views/themes/vendor/'.$namespace);
+        if (is_dir($appPath = $this->app->basePath().'/resources/themes/'.$this->themeName.'/views/'.$namespace)) {
+            $this->app['view']->prependNamespace($namespace, $this->app->basePath().'/resources/themes/'.$this->themeName.'/views/'.$namespace);
         }
-
     }
 }
