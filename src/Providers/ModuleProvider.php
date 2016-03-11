@@ -10,10 +10,11 @@ use File;
 abstract class ModuleProvider extends ServiceProvider
 {
     protected $themeName = '';
+    protected $sourceDir = __DIR__;
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../resources/' => base_path('resources/themes/' . $this->themeName),
+            $this->sourceDir . '/resources/' => base_path('resources/themes/' . $this->themeName),
         ], 'themes');
         $this->addViews();
     }
@@ -24,15 +25,15 @@ abstract class ModuleProvider extends ServiceProvider
 
     protected function addViews()
     {
-        $list = File::directories(__DIR__.'/../resources/views');
+        $list = File::directories($this->sourceDir . '/resources/views');
         foreach ($list as $namespace) {
             $this->addView(basename($namespace));
         }
     }
     protected function addView($namespace)
     {
-        if (is_dir($appPath = $this->app->basePath().'/resources/themes/'.$this->themeName.'/views/'.$namespace)) {
-            $this->app['view']->prependNamespace($namespace, $this->app->basePath().'/resources/themes/'.$this->themeName.'/views/'.$namespace);
+        if (is_dir($appPath = $this->app->basePath() . '/resources/themes/' . $this->themeName . '/views/' . $namespace)) {
+            $this->app['view']->prependNamespace($namespace, $this->app->basePath() . '/resources/themes/' . $this->themeName . '/views/' . $namespace);
         }
     }
 }
