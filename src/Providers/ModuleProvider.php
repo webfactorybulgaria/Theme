@@ -25,9 +25,12 @@ abstract class ModuleProvider extends ServiceProvider
 
     protected function addViews()
     {
-        $list = File::directories($this->sourceDir . '/../resources/views');
-        foreach ($list as $namespace) {
-            $this->addView(basename($namespace));
+        $dir = base_path('resources/themes/' . $this->themeName . '/views/');
+        if (is_dir($dir)) {
+            $list = File::directories($dir);
+            foreach ($list as $namespace) {
+                $this->addView(basename($namespace));
+            }
         }
     }
     protected function addView($namespace)
