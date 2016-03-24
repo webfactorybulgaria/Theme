@@ -17,7 +17,10 @@ abstract class ModuleProvider extends ServiceProvider
             $this->sourceDir . '/../resources/' => base_path('resources/themes/' . $this->themeName),
         ], 'themes');
         $this->publishes([
-            $this->sourceDir . '/../uploads/' => base_path('public/uploads/' . $this->themeName),
+            $this->sourceDir . '/../../public/uploads/' => base_path('public/uploads'),
+        ], 'themes');
+        $this->publishes([
+            $this->sourceDir . '/../database' => base_path('database'),
         ], 'themes');
         $this->addViews();
     }
