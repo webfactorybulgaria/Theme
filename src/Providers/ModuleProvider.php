@@ -16,6 +16,9 @@ abstract class ModuleProvider extends ServiceProvider
         $this->publishes([
             $this->sourceDir . '/../resources/' => base_path('resources/themes/' . $this->themeName),
         ], 'themes');
+        $this->publishes([
+            $this->sourceDir . '/../uploads/' => base_path('uploads/' . $this->themeName),
+        ], 'themes');
         $this->addViews();
     }
 
@@ -33,6 +36,7 @@ abstract class ModuleProvider extends ServiceProvider
             }
         }
     }
+
     protected function addView($namespace)
     {
         if (is_dir($appPath = $this->app->basePath() . '/resources/themes/' . $this->themeName . '/views/' . $namespace)) {
